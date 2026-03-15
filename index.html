@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alankar Restaurant — Pure Veg | Uttam Nagar, New Delhi</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════
+   RESET & ROOT
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --saffron:#E65C00;
+  --saffron-light:#FF7A1A;
+  --saffron-dark:#B34500;
+  --cream:#FFF8F0;
+  --cream-dark:#F5E6D0;
+  --green:#1B5E20;
+  --green-light:#2E7D32;
+  --gold:#D4A017;
+  --gold-light:#F0C040;
+  --dark:#1A0A00;
+  --dark-mid:#2D1600;
+  --text-muted:#8B6E5A;
+  --white:#FFFFFF;
+  --shadow-warm:0 8px 40px rgba(230,92,0,0.18);
+  --shadow-deep:0 20px 60px rgba(26,10,0,0.25);
+  --radius:16px;
+  --radius-sm:8px;
+  --transition:0.35s cubic-bezier(0.4,0,0.2,1);
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{
+  font-family:'Poppins',sans-serif;
+  background:var(--cream);
+  color:var(--dark);
+  overflow-x:hidden;
+  cursor:none;
+}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+button{cursor:none;font-family:inherit}
+
+/* ═══════════════════════════════════════
+   CUSTOM CURSOR
+═══════════════════════════════════════ */
+#cursor{
+  width:10px;height:10px;
+  background:var(--saffron);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;
+  z-index:99999;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,background 0.2s;
+  mix-blend-mode:multiply;
+}
+#cursor-ring{
+  width:32px;height:32px;
+  border:1.5px solid var(--saffron);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;
+  z-index:99998;
+  transform:translate(-50%,-50%);
+  transition:all 0.1s;
+  opacity:0.5;
+}
+body:hover #cursor{opacity:1}
+
+/* ═══════════════════════════════════════
+   PAGE LOAD OVERLAY
+═══════════════════════════════════════ */
+#loader{
+  position:fixed;inset:0;
+  background:var(--dark);
+  z-index:99997;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:24px;
+  transition:opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-dot{
+  width:20px;height:20px;
+  background:var(--green);
+  border-radius:50%;
+  animation:dotPulse 1s ease-in-out infinite;
+  box-shadow:0 0 20px var(--green);
+}
+.loader-text{
+  font-family:'Cinzel',serif;
+  color:var(--cream);
+  font-size:2rem;
+  letter-spacing:0.3em;
+  text-transform:uppercase;
+  opacity:0;
+  animation:fadeInText 0.6s 0.3s forwards;
+}
+.loader-sub{
+  color:var(--gold);
+  font-size:0.85rem;
+  letter-spacing:0.2em;
+  opacity:0;
+  animation:fadeInText 0.6s 0.6s forwards;
+}
+@keyframes dotPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.4);box-shadow:0 0 30px var(--green-light)}}
+@keyframes fadeInText{to{opacity:1}}
+
+/* ═══════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════ */
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section-title{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  font-weight:700;
+  color:var(--dark);
+  line-height:1.2;
+}
+.section-title span{color:var(--saffron)}
+.section-sub{
+  font-size:1rem;
+  color:var(--text-muted);
+  margin-top:10px;
+  font-weight:400;
+  letter-spacing:0.02em;
+}
+.green-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(27,94,32,0.1);
+  border:1.5px solid var(--green);
+  color:var(--green);
+  padding:5px 14px;
+  border-radius:100px;
+  font-size:0.78rem;
+  font-weight:600;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+}
+.green-badge::before{
+  content:'';width:8px;height:8px;
+  background:var(--green);border-radius:50%;
+  animation:blink 1.5s ease infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:14px 32px;
+  border-radius:100px;
+  font-weight:600;
+  font-size:0.95rem;
+  letter-spacing:0.04em;
+  border:none;
+  transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;
+  background:rgba(255,255,255,0.15);
+  transform:translateX(-100%);
+  transition:transform 0.4s ease;
+}
+.btn:hover::after{transform:translateX(0)}
+.btn-saffron{
+  background:linear-gradient(135deg,var(--saffron),var(--saffron-light));
+  color:var(--white);
+  box-shadow:0 6px 24px rgba(230,92,0,0.35);
+}
+.btn-saffron:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(230,92,0,0.45)}
+.btn-outline{
+  background:transparent;
+  border:2px solid var(--cream);
+  color:var(--cream);
+}
+.btn-outline:hover{background:rgba(255,248,240,0.15);transform:translateY(-2px)}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),var(--gold-light));
+  color:var(--dark);
+  font-weight:700;
+  box-shadow:0 6px 24px rgba(212,160,23,0.35);
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(212,160,23,0.45)}
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ═══════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════ */
+#navbar{
+  position:fixed;top:0;left:0;right:0;
+  z-index:1000;
+  padding:0 24px;
+  transition:all 0.4s ease;
+}
+#navbar.scrolled{
+  background:rgba(26,10,0,0.97);
+  backdrop-filter:blur(20px);
+  box-shadow:0 4px 30px rgba(0,0,0,0.3);
+  padding:0 24px;
+}
+.nav-inner{
+  max-width:1200px;margin:0 auto;
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:10px;
+}
+.nav-logo-dot{
+  width:12px;height:12px;
+  background:var(--green);border-radius:50%;
+  animation:blink 1.5s ease infinite;
+  flex-shrink:0;
+}
+.nav-logo-text{
+  font-family:'Cinzel',serif;
+  font-size:1.4rem;
+  font-weight:900;
+  color:var(--cream);
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+}
+.nav-logo-sub{
+  font-size:0.62rem;
+  color:var(--green-light);
+  font-weight:600;
+  letter-spacing:0.15em;
+  text-transform:uppercase;
+  line-height:1;
+  display:block;
+  margin-top:2px;
+}
+.nav-links{
+  display:flex;align-items:center;gap:32px;
+  list-style:none;
+}
+.nav-links a{
+  color:rgba(255,248,240,0.8);
+  font-size:0.88rem;
+  font-weight:500;
+  letter-spacing:0.04em;
+  transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:1.5px;background:var(--saffron);
+  transform:scaleX(0);transition:transform 0.3s ease;
+}
+.nav-links a:hover{color:var(--cream)}
+.nav-links a:hover::after{transform:scaleX(1)}
+.nav-cta{padding:10px 24px;font-size:0.85rem}
+.hamburger{
+  display:none;flex-direction:column;gap:5px;
+  background:none;border:none;padding:8px;
+}
+.hamburger span{
+  display:block;width:24px;height:2px;
+  background:var(--cream);border-radius:2px;
+  transition:all 0.3s ease;
+}
+.mobile-menu{
+  display:none;position:fixed;inset:0;
+  background:var(--dark);
+  z-index:999;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:32px;
+}
+.mobile-menu.open{display:flex}
+.mobile-menu a{
+  font-family:'Cinzel',serif;
+  font-size:1.5rem;color:var(--cream);
+  letter-spacing:0.08em;
+}
+.mobile-close{
+  position:absolute;top:24px;right:24px;
+  background:none;border:none;color:var(--cream);
+  font-size:1.8rem;
+}
+
+/* ═══════════════════════════════════════
+   HERO
+═══════════════════════════════════════ */
+#hero{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:var(--dark);
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(230,92,0,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 20%, rgba(212,160,23,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 80%, rgba(27,94,32,0.08) 0%, transparent 40%),
+    linear-gradient(160deg, #2D1600 0%, #1A0A00 50%, #0D0500 100%);
+}
+.hero-grain{
+  position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:0.4;pointer-events:none;
+}
+.hero-decor{
+  position:absolute;top:-100px;right:-100px;
+  width:500px;height:500px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(230,92,0,0.12) 0%,transparent 70%);
+  animation:floatDecor 8s ease-in-out infinite;
+}
+.hero-decor2{
+  position:absolute;bottom:-150px;left:-50px;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(212,160,23,0.08) 0%,transparent 70%);
+  animation:floatDecor 10s ease-in-out infinite reverse;
+}
+@keyframes floatDecor{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
+.hero-pattern{
+  position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(230,92,0,0.015) 40px,rgba(230,92,0,0.015) 41px),
+    repeating-linear-gradient(-45deg,transparent,transparent 40px,rgba(230,92,0,0.015) 40px,rgba(230,92,0,0.015) 41px);
+  pointer-events:none;
+}
+.hero-content{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:120px 24px 80px;
+  max-width:900px;
+}
+.hero-badge-wrap{
+  opacity:0;animation:heroFadeUp 0.6s 1.2s forwards;
+  margin-bottom:28px;
+}
+.hero-heading{
+  font-family:'Cinzel',serif;
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:900;
+  color:var(--cream);
+  line-height:1.05;
+  letter-spacing:0.02em;
+  margin-bottom:20px;
+  min-height:1.2em;
+}
+.hero-heading .word{
+  display:inline-block;
+  opacity:0;
+  transform:translateY(30px) rotateX(-20deg);
+  transition:opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
+}
+.hero-heading .word.show{opacity:1;transform:translateY(0) rotateX(0)}
+.hero-heading .accent{color:var(--saffron)}
+.hero-heading .gold{color:var(--gold)}
+.hero-sub{
+  font-size:clamp(0.9rem,2vw,1.15rem);
+  color:rgba(255,248,240,0.65);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  margin-bottom:40px;
+  opacity:0;animation:heroFadeUp 0.6s 2.4s forwards;
+}
+.hero-ctas{
+  display:flex;flex-wrap:wrap;gap:16px;
+  justify-content:center;
+  opacity:0;animation:heroFadeUp 0.6s 2.8s forwards;
+}
+.hero-scroll{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  color:rgba(255,248,240,0.4);
+  font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;
+  opacity:0;animation:heroFadeUp 0.6s 3.2s forwards;
+}
+.scroll-line{
+  width:1px;height:40px;
+  background:linear-gradient(to bottom,var(--saffron),transparent);
+  animation:scrollPulse 2s ease infinite;
+}
+@keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.1)}}
+@keyframes heroFadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ═══════════════════════════════════════
+   MARQUEE TICKER
+═══════════════════════════════════════ */
+.ticker-wrap{
+  background:linear-gradient(90deg,var(--saffron-dark),var(--saffron),var(--saffron-dark));
+  padding:14px 0;overflow:hidden;
+  position:relative;z-index:10;
+}
+.ticker-inner{
+  display:flex;width:max-content;
+  animation:ticker 35s linear infinite;
+}
+.ticker-item{
+  display:inline-flex;align-items:center;gap:6px;
+  white-space:nowrap;padding:0 32px;
+  font-size:0.88rem;font-weight:600;
+  color:var(--white);letter-spacing:0.05em;
+}
+.ticker-dot{
+  width:5px;height:5px;
+  background:var(--gold-light);border-radius:50%;
+  flex-shrink:0;
+}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ═══════════════════════════════════════
+   MENU SECTION
+═══════════════════════════════════════ */
+#menu{padding:100px 0;background:var(--cream)}
+.menu-header{text-align:center;margin-bottom:56px}
+.tabs-wrap{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;
+  margin-bottom:48px;
+}
+.tab-btn{
+  padding:10px 22px;
+  border-radius:100px;
+  border:2px solid var(--cream-dark);
+  background:var(--white);
+  color:var(--text-muted);
+  font-size:0.84rem;font-weight:600;
+  letter-spacing:0.03em;
+  transition:var(--transition);
+  white-space:nowrap;
+}
+.tab-btn:hover{border-color:var(--saffron);color:var(--saffron)}
+.tab-btn.active{
+  background:var(--saffron);
+  border-color:var(--saffron);
+  color:var(--white);
+  box-shadow:0 6px 20px rgba(230,92,0,0.3);
+}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.dish-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:20px 22px;
+  display:flex;align-items:center;justify-content:space-between;
+  border:1.5px solid transparent;
+  transition:var(--transition);
+  position:relative;overflow:hidden;
+  box-shadow:0 2px 12px rgba(26,10,0,0.06);
+}
+.dish-card::before{
+  content:'';position:absolute;left:0;top:0;bottom:0;
+  width:3px;background:var(--saffron);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform 0.3s ease;
+}
+.dish-card:hover{
+  border-color:rgba(230,92,0,0.2);
+  box-shadow:0 8px 32px rgba(230,92,0,0.12);
+  transform:translateY(-3px);
+}
+.dish-card:hover::before{transform:scaleY(1)}
+.dish-name{
+  font-size:0.95rem;font-weight:600;
+  color:var(--dark);line-height:1.3;
+}
+.dish-price{
+  font-family:'Cinzel',serif;
+  font-size:1rem;font-weight:700;
+  color:var(--saffron);
+  white-space:nowrap;margin-left:16px;
+  flex-shrink:0;
+}
+.thali-card{
+  background:linear-gradient(135deg,#FFF3E0,#FFF8F0);
+  border:2px solid var(--gold);
+  border-radius:var(--radius);
+  padding:28px;
+  grid-column:1/-1;
+}
+.thali-badge{
+  display:inline-block;
+  background:var(--gold);color:var(--dark);
+  font-size:0.72rem;font-weight:700;
+  padding:4px 12px;border-radius:100px;
+  letter-spacing:0.08em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.thali-name{font-family:'Cinzel',serif;font-size:1.3rem;font-weight:700;color:var(--dark);margin-bottom:8px}
+.thali-desc{font-size:0.88rem;color:var(--text-muted);line-height:1.6}
+.thali-price{
+  font-family:'Cinzel',serif;font-size:2rem;font-weight:900;
+  color:var(--saffron);margin-top:12px;
+}
+
+/* ═══════════════════════════════════════
+   ALANKAR SPECIAL THALI SECTION
+═══════════════════════════════════════ */
+#thali-section{
+  padding:100px 0;
+  background:linear-gradient(135deg,var(--saffron-dark) 0%,var(--saffron) 50%,var(--saffron-dark) 100%);
+  position:relative;overflow:hidden;
+}
+.thali-section-bg{
+  position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.thali-section-inner{
+  position:relative;z-index:2;
+  text-align:center;
+}
+.thali-big-price{
+  font-family:'Cinzel',serif;
+  font-size:clamp(4rem,10vw,8rem);
+  font-weight:900;
+  color:var(--gold-light);
+  line-height:1;
+  text-shadow:0 4px 30px rgba(0,0,0,0.2);
+  margin-bottom:8px;
+}
+.thali-big-label{
+  font-family:'Cinzel',serif;
+  font-size:clamp(1.5rem,4vw,2.8rem);
+  color:var(--white);
+  font-weight:700;
+  margin-bottom:8px;
+  letter-spacing:0.04em;
+}
+.thali-big-sub{color:rgba(255,255,255,0.75);font-size:1rem;margin-bottom:40px}
+.thali-items{
+  display:flex;flex-wrap:wrap;gap:12px;
+  justify-content:center;max-width:700px;margin:0 auto 40px;
+}
+.thali-item{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,0.25);
+  color:var(--white);
+  padding:8px 18px;border-radius:100px;
+  font-size:0.85rem;font-weight:500;
+}
+
+/* ═══════════════════════════════════════
+   BOOKING FORM
+═══════════════════════════════════════ */
+#booking{padding:100px 0;background:var(--dark)}
+.booking-wrap{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:start;
+}
+.booking-info .section-title{color:var(--cream)}
+.booking-info .section-sub{color:rgba(255,248,240,0.5)}
+.booking-features{margin-top:40px;display:flex;flex-direction:column;gap:20px}
+.booking-feat{
+  display:flex;align-items:center;gap:16px;
+  padding:18px 20px;
+  background:rgba(255,248,240,0.04);
+  border:1px solid rgba(255,248,240,0.08);
+  border-radius:var(--radius-sm);
+}
+.booking-feat-icon{
+  width:44px;height:44px;
+  background:rgba(230,92,0,0.15);
+  border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;
+}
+.booking-feat-text strong{color:var(--cream);font-size:0.92rem;display:block}
+.booking-feat-text span{color:rgba(255,248,240,0.45);font-size:0.8rem}
+.booking-form{
+  background:var(--dark-mid);
+  border:1px solid rgba(255,248,240,0.08);
+  border-radius:20px;
+  padding:40px;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-field{display:flex;flex-direction:column;gap:8px}
+.form-field.full{grid-column:1/-1}
+.form-label{
+  font-size:0.82rem;font-weight:600;
+  color:rgba(255,248,240,0.6);
+  letter-spacing:0.05em;text-transform:uppercase;
+}
+.form-input,.form-select,.form-textarea{
+  background:rgba(255,255,255,0.05);
+  border:1.5px solid rgba(255,248,240,0.1);
+  border-radius:var(--radius-sm);
+  padding:13px 16px;
+  color:var(--cream);
+  font-family:'Poppins',sans-serif;
+  font-size:0.9rem;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  width:100%;
+  appearance:none;-webkit-appearance:none;
+}
+.form-select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23E65C00' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 14px center;
+  padding-right:40px;
+}
+.form-select option{background:#2D1600;color:var(--cream)}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  outline:none;
+  border-color:var(--saffron);
+  box-shadow:0 0 0 3px rgba(230,92,0,0.15);
+}
+.form-input::placeholder,.form-textarea::placeholder{color:rgba(255,248,240,0.25)}
+.form-textarea{resize:vertical;min-height:100px}
+.form-submit{margin-top:24px}
+.form-submit .btn{width:100%;padding:16px}
+#booking-success{
+  display:none;
+  text-align:center;padding:40px;
+}
+#booking-success.show{display:block}
+.success-icon{font-size:3rem;margin-bottom:16px}
+.success-title{
+  font-family:'Cinzel',serif;
+  color:var(--cream);font-size:1.4rem;margin-bottom:8px;
+}
+.success-text{color:rgba(255,248,240,0.6);font-size:0.9rem;line-height:1.6}
+
+/* ═══════════════════════════════════════
+   ABOUT
+═══════════════════════════════════════ */
+#about{padding:100px 0;background:var(--cream)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.about-story p{
+  color:var(--text-muted);
+  font-size:1rem;line-height:1.85;
+  margin-bottom:20px;
+}
+.about-story p:last-child{margin-bottom:0}
+.about-story strong{color:var(--dark)}
+.about-stats{display:flex;flex-direction:column;gap:20px}
+.stat-card{
+  background:var(--white);
+  border-radius:var(--radius);
+  padding:28px 32px;
+  border-left:4px solid var(--saffron);
+  box-shadow:0 4px 20px rgba(26,10,0,0.06);
+  transition:var(--transition);
+}
+.stat-card:nth-child(2){border-left-color:var(--green)}
+.stat-card:nth-child(3){border-left-color:var(--gold)}
+.stat-card:hover{transform:translateX(8px);box-shadow:var(--shadow-warm)}
+.stat-value{
+  font-family:'Cinzel',serif;
+  font-size:2rem;font-weight:900;
+  color:var(--saffron);
+}
+.stat-card:nth-child(2) .stat-value{color:var(--green)}
+.stat-card:nth-child(3) .stat-value{color:var(--gold)}
+.stat-label{font-size:0.88rem;color:var(--text-muted);margin-top:4px;font-weight:500}
+
+/* ═══════════════════════════════════════
+   WHY ALANKAR
+═══════════════════════════════════════ */
+#why{padding:100px 0;background:#0F0500}
+.why-header{text-align:center;margin-bottom:60px}
+.why-header .section-title{color:var(--cream)}
+.why-header .section-sub{color:rgba(255,248,240,0.45)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.why-card{
+  background:linear-gradient(145deg,rgba(255,248,240,0.05),rgba(255,248,240,0.02));
+  border:1px solid rgba(255,248,240,0.08);
+  border-radius:20px;padding:36px 28px;
+  text-align:center;
+  transition:var(--transition);
+  position:relative;overflow:hidden;
+}
+.why-card::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 0%,rgba(230,92,0,0.1),transparent 60%);
+  opacity:0;transition:opacity 0.3s;
+}
+.why-card:hover{
+  border-color:rgba(230,92,0,0.25);
+  transform:translateY(-8px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3);
+}
+.why-card:hover::after{opacity:1}
+.why-icon{
+  font-size:2.5rem;margin-bottom:20px;
+  display:block;
+  filter:drop-shadow(0 4px 8px rgba(230,92,0,0.3));
+}
+.why-title{
+  font-family:'Cinzel',serif;
+  font-size:1.05rem;font-weight:700;
+  color:var(--cream);margin-bottom:10px;
+}
+.why-desc{font-size:0.88rem;color:rgba(255,248,240,0.45);line-height:1.6}
+
+/* ═══════════════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════════════ */
+#testimonials{padding:100px 0;background:var(--cream)}
+.testimonials-header{text-align:center;margin-bottom:56px}
+.testimonials-slider{position:relative;overflow:hidden}
+.testimonials-track{
+  display:flex;gap:28px;
+  transition:transform 0.6s cubic-bezier(0.4,0,0.2,1);
+  will-change:transform;
+}
+.review-card{
+  background:var(--white);
+  border-radius:20px;
+  padding:32px;min-width:340px;flex:0 0 340px;
+  box-shadow:0 4px 24px rgba(26,10,0,0.07);
+  border-top:3px solid var(--saffron);
+}
+.review-stars{color:var(--gold);font-size:1rem;margin-bottom:14px;letter-spacing:2px}
+.review-text{
+  font-size:0.92rem;color:var(--dark);
+  line-height:1.75;font-style:italic;margin-bottom:20px;
+}
+.review-author{
+  display:flex;align-items:center;gap:12px;
+}
+.review-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;font-weight:700;color:var(--white);
+  flex-shrink:0;
+}
+.review-name{font-weight:600;font-size:0.9rem;color:var(--dark)}
+.review-date{font-size:0.75rem;color:var(--text-muted);margin-top:2px}
+.review-google{
+  margin-left:auto;
+  font-size:0.75rem;color:var(--text-muted);
+  display:flex;align-items:center;gap:4px;
+}
+.slider-dots{
+  display:flex;justify-content:center;gap:8px;
+  margin-top:36px;
+}
+.slider-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--cream-dark);border:none;padding:0;
+  cursor:none;transition:all 0.3s;
+}
+.slider-dot.active{
+  background:var(--saffron);width:24px;border-radius:4px;
+}
+
+/* ═══════════════════════════════════════
+   LOCATION
+═══════════════════════════════════════ */
+#location{padding:100px 0;background:var(--dark)}
+.location-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:60px;align-items:start}
+.map-wrap{
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4);
+  position:relative;
+}
+.map-wrap::before{
+  content:'';position:absolute;inset:-2px;
+  border-radius:22px;
+  background:linear-gradient(135deg,var(--saffron),var(--gold));
+  z-index:-1;
+}
+.map-wrap iframe{
+  width:100%;height:400px;display:block;
+  border:none;filter:hue-rotate(0deg) saturate(0.9);
+}
+.location-info .section-title{color:var(--cream);margin-bottom:32px}
+.info-card{
+  background:rgba(255,248,240,0.04);
+  border:1px solid rgba(255,248,240,0.08);
+  border-radius:var(--radius);
+  padding:22px;margin-bottom:16px;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.info-icon{
+  font-size:1.3rem;margin-top:2px;flex-shrink:0;
+}
+.info-label{font-size:0.75rem;font-weight:600;color:var(--saffron);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.info-val{font-size:0.95rem;color:var(--cream);line-height:1.5}
+.info-val a{color:var(--cream);transition:color 0.2s}
+.info-val a:hover{color:var(--saffron)}
+.hours-table{width:100%;border-collapse:collapse;margin-top:8px}
+.hours-table tr{border-bottom:1px solid rgba(255,248,240,0.08)}
+.hours-table tr:last-child{border-bottom:none}
+.hours-table td{padding:8px 0;font-size:0.88rem;color:rgba(255,248,240,0.7)}
+.hours-table td:first-child{color:var(--cream);font-weight:500;width:50%}
+.hours-open{color:var(--green-light) !important;font-weight:600 !important}
+.zomato-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#E23744,#cb2030);
+  color:var(--white);padding:13px 26px;
+  border-radius:100px;font-weight:600;font-size:0.9rem;
+  margin-top:20px;transition:var(--transition);
+  box-shadow:0 6px 20px rgba(226,55,68,0.35);
+}
+.zomato-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(226,55,68,0.45)}
+.zomato-logo{width:20px;height:20px;background:var(--white);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#E23744}
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+footer{
+  background:linear-gradient(135deg,var(--saffron-dark),var(--saffron));
+  padding:60px 0 32px;
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.footer-inner{position:relative;z-index:2}
+.footer-top{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr;
+  gap:48px;padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,0.2);
+  margin-bottom:32px;
+}
+.footer-brand .nav-logo-text{font-size:1.6rem;color:var(--white)}
+.footer-brand .nav-logo-sub{color:rgba(255,255,255,0.7);font-size:0.68rem}
+.footer-tagline{
+  color:rgba(255,255,255,0.75);
+  font-size:0.88rem;margin-top:14px;
+  line-height:1.6;font-style:italic;
+}
+.footer-col-title{
+  font-family:'Cinzel',serif;
+  font-size:0.85rem;font-weight:700;
+  color:var(--white);letter-spacing:0.1em;
+  text-transform:uppercase;margin-bottom:20px;
+}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links a{
+  color:rgba(255,255,255,0.7);font-size:0.88rem;
+  transition:color 0.2s,transform 0.2s;
+  display:inline-block;
+}
+.footer-links a:hover{color:var(--white);transform:translateX(4px)}
+.footer-contact p{
+  color:rgba(255,255,255,0.7);font-size:0.88rem;
+  line-height:1.7;
+}
+.footer-contact a{color:var(--white);font-weight:600}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:16px;
+}
+.footer-copy{
+  font-size:0.82rem;color:rgba(255,255,255,0.6);
+}
+.footer-copy strong{color:var(--white)}
+.footer-badges{display:flex;align-items:center;gap:12px}
+.footer-badge{
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  color:var(--white);
+  padding:6px 14px;border-radius:100px;
+  font-size:0.75rem;font-weight:600;
+  letter-spacing:0.05em;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .about-grid,.booking-wrap,.location-grid{grid-template-columns:1fr;gap:40px}
+  .form-grid{grid-template-columns:1fr}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+}
+@media(max-width:600px){
+  .hero-ctas{flex-direction:column;align-items:center}
+  .tabs-wrap .tab-btn{font-size:0.78rem;padding:8px 16px}
+  .review-card{min-width:280px}
+  .footer-bottom{flex-direction:column;text-align:center}
+  .booking-form{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-dot"></div>
+  <div class="loader-text">ALANKAR</div>
+  <div class="loader-sub">Pure Veg · Uttam Nagar, New Delhi</div>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <div class="nav-logo-dot"></div>
+      <div>
+        <div class="nav-logo-text">ALANKAR</div>
+        <span class="nav-logo-sub">Pure Veg Restaurant</span>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#thali-section">Thali</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#location">Location</a></li>
+    </ul>
+    <a href="#booking" class="btn btn-saffron nav-cta">Book a Table</a>
+    <button class="hamburger" onclick="document.getElementById('mobileMenu').classList.toggle('open')" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-close" onclick="document.getElementById('mobileMenu').classList.remove('open')">✕</button>
+  <a href="#menu" onclick="document.getElementById('mobileMenu').classList.remove('open')">Menu</a>
+  <a href="#thali-section" onclick="document.getElementById('mobileMenu').classList.remove('open')">Special Thali</a>
+  <a href="#booking" onclick="document.getElementById('mobileMenu').classList.remove('open')">Book a Table</a>
+  <a href="#about" onclick="document.getElementById('mobileMenu').classList.remove('open')">About</a>
+  <a href="#location" onclick="document.getElementById('mobileMenu').classList.remove('open')">Location</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-pattern"></div>
+  <div class="hero-decor"></div>
+  <div class="hero-decor2"></div>
+  <div class="hero-content">
+    <div class="hero-badge-wrap">
+      <span class="green-badge">🟢 Pure Veg · Uttam Nagar, New Delhi</span>
+    </div>
+    <h1 class="hero-heading" id="heroHeading">
+      <span class="word accent" id="w1">Shudh</span>&nbsp;
+      <span class="word" id="w2">Shakahari,</span><br>
+      <span class="word gold" id="w3">Asli</span>&nbsp;
+      <span class="word" id="w4">Swad.</span>
+    </h1>
+    <p class="hero-sub">Pure Veg &nbsp;·&nbsp; North Indian &nbsp;·&nbsp; Tandoori &nbsp;·&nbsp; Thali</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn btn-saffron">🍽️ View Menu</a>
+      <a href="#booking" class="btn btn-outline">📅 Book a Table</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- MARQUEE TICKER -->
+<div class="ticker-wrap" aria-hidden="true">
+  <div class="ticker-inner" id="ticker">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
+<!-- MENU SECTION -->
+<section id="menu">
+  <div class="container">
+    <div class="menu-header reveal">
+      <div class="green-badge" style="margin-bottom:16px">Our Menu</div>
+      <h2 class="section-title">Crafted with <span>Pure Passion</span></h2>
+      <p class="section-sub">Every dish made fresh daily — no eggs, no meat, just pure vegetarian goodness</p>
+    </div>
+    <div class="tabs-wrap reveal" id="tabsWrap"></div>
+    <div id="tabContent"></div>
+  </div>
+</section>
+
+<!-- ALANKAR SPECIAL THALI SECTION -->
+<section id="thali-section">
+  <div class="thali-section-bg"></div>
+  <div class="container thali-section-inner reveal">
+    <div class="green-badge" style="margin-bottom:20px;background:rgba(255,255,255,0.15);border-color:rgba(255,255,255,0.4);color:white">⭐ Chef's Special</div>
+    <div class="thali-big-label">Alankar Special Thali</div>
+    <div class="thali-big-price">₹200</div>
+    <p class="thali-big-sub">The complete North Indian vegetarian experience — everything in one plate</p>
+    <div class="thali-items">
+      <span class="thali-item">2 Butter Naan</span>
+      <span class="thali-item">2 Laccha Paratha</span>
+      <span class="thali-item">Dal Makhni</span>
+      <span class="thali-item">Kadhai Paneer</span>
+      <span class="thali-item">Mix Veg</span>
+      <span class="thali-item">Raita</span>
+      <span class="thali-item">Rice</span>
+      <span class="thali-item">Papad</span>
+      <span class="thali-item">1 Sweet</span>
+    </div>
+    <a href="#booking" class="btn btn-gold" style="font-size:1rem;padding:16px 40px">Book Your Table for Thali</a>
+  </div>
+</section>
+
+<!-- BOOKING SECTION -->
+<section id="booking">
+  <div class="container">
+    <div class="booking-wrap">
+      <div class="booking-info reveal">
+        <div class="green-badge" style="margin-bottom:16px;background:rgba(27,94,32,0.15);border-color:var(--green);color:var(--green-light)">Reserve a Table</div>
+        <h2 class="section-title" style="color:var(--cream)">Book Your <span>Perfect Meal</span></h2>
+        <p class="section-sub" style="color:rgba(255,248,240,0.5)">We'll confirm your booking on <strong style="color:var(--saffron)">07011552924</strong> shortly</p>
+        <div class="booking-features">
+          <div class="booking-feat">
+            <div class="booking-feat-icon">🕐</div>
+            <div class="booking-feat-text">
+              <strong>Lunch Hours</strong>
+              <span>12:00 PM – 4:30 PM daily</span>
+            </div>
+          </div>
+          <div class="booking-feat">
+            <div class="booking-feat-icon">🌙</div>
+            <div class="booking-feat-text">
+              <strong>Dinner Hours</strong>
+              <span>6:00 PM – 10:30 PM daily</span>
+            </div>
+          </div>
+          <div class="booking-feat">
+            <div class="booking-feat-icon">❄️</div>
+            <div class="booking-feat-text">
+              <strong>AC &amp; Non-AC Seating</strong>
+              <span>Ground floor &amp; first floor available</span>
+            </div>
+          </div>
+          <div class="booking-feat">
+            <div class="booking-feat-icon">👨‍👩‍👧‍👦</div>
+            <div class="booking-feat-text">
+              <strong>Family Section</strong>
+              <span>Special seating for families &amp; groups</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="booking-form reveal" id="bookingFormWrap">
+        <div id="bookingFormContent">
+          <h3 style="font-family:'Cinzel',serif;color:var(--cream);font-size:1.2rem;margin-bottom:28px;letter-spacing:0.04em">Reserve Your Table</h3>
+          <form id="bookingForm" novalidate>
+            <div class="form-grid">
+              <div class="form-field">
+                <label class="form-label" for="bDate">Select Date *</label>
+                <input type="date" class="form-input" id="bDate" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bTime">Select Time *</label>
+                <select class="form-select" id="bTime" required>
+                  <option value="">Choose time</option>
+                  <optgroup label="🌞 Lunch (12 PM – 4:30 PM)">
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="12:30 PM">12:30 PM</option>
+                    <option value="1:00 PM">1:00 PM</option>
+                    <option value="1:30 PM">1:30 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="2:30 PM">2:30 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="3:30 PM">3:30 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                  </optgroup>
+                  <optgroup label="🌙 Dinner (6 PM – 10:30 PM)">
+                    <option value="6:00 PM">6:00 PM</option>
+                    <option value="6:30 PM">6:30 PM</option>
+                    <option value="7:00 PM">7:00 PM</option>
+                    <option value="7:30 PM">7:30 PM</option>
+                    <option value="8:00 PM">8:00 PM</option>
+                    <option value="8:30 PM">8:30 PM</option>
+                    <option value="9:00 PM">9:00 PM</option>
+                    <option value="9:30 PM">9:30 PM</option>
+                    <option value="10:00 PM">10:00 PM</option>
+                  </optgroup>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bGuests">Guests *</label>
+                <select class="form-select" id="bGuests" required>
+                  <option value="">Select</option>
+                  <option value="1-2">1 – 2 Guests</option>
+                  <option value="3-4">3 – 4 Guests</option>
+                  <option value="5-6">5 – 6 Guests</option>
+                  <option value="7-8">7 – 8 Guests</option>
+                  <option value="8+">8+ Guests</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bSeating">Seating Preference</label>
+                <select class="form-select" id="bSeating">
+                  <option value="">Any Available</option>
+                  <option value="Indoor AC">Indoor AC</option>
+                  <option value="Window Side">Window Side</option>
+                  <option value="Corner Table">Corner Table</option>
+                  <option value="Family Section">Family Section</option>
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="First Floor">First Floor</option>
+                </select>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bName">Your Name *</label>
+                <input type="text" class="form-input" id="bName" placeholder="e.g. Rahul Sharma" required>
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="bPhone">Phone Number *</label>
+                <input type="tel" class="form-input" id="bPhone" placeholder="e.g. 9876543210" required>
+              </div>
+              <div class="form-field full">
+                <label class="form-label" for="bRequest">Special Request</label>
+                <textarea class="form-textarea" id="bRequest" placeholder="Birthday celebration, wheelchair access, dietary restrictions..."></textarea>
+              </div>
+            </div>
+            <div class="form-submit">
+              <button type="submit" class="btn btn-saffron">✓ Confirm Table Booking</button>
+            </div>
+            <p id="formError" style="color:#ff6b6b;font-size:0.82rem;margin-top:12px;display:none;text-align:center"></p>
+          </form>
+        </div>
+        <div id="booking-success">
+          <div class="success-icon">✅</div>
+          <div class="success-title">Table Booked!</div>
+          <p class="success-text">We'll confirm on <strong style="color:var(--saffron)">07011552924</strong> shortly.<br><br><em style="color:var(--gold)">Khana tayaar hai!</em></p>
+          <button onclick="resetForm()" class="btn btn-saffron" style="margin-top:24px">Book Another Table</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-story reveal">
+        <div class="green-badge" style="margin-bottom:20px">Our Story</div>
+        <h2 class="section-title">Born in Delhi,<br><span>Made with Love</span></h2>
+        <br>
+        <p>Alankar Restaurant is a beloved Pure Veg destination in the heart of Uttam Nagar, New Delhi. What started as a dream to serve authentic North Indian vegetarian cuisine has grown into a community institution where families gather, memories are made, and every meal feels like home.</p>
+        <p>We've never compromised on our core promise — <strong>100% Pure Vegetarian, always</strong>. From our smoky tandoor to our slow-cooked dals, every dish honours the rich culinary traditions of Northern India. No shortcuts. No artificial flavours. Just real ingredients, real recipes, and real love.</p>
+        <p>Whether you're stopping by for a quick lunch thali or celebrating a family occasion over dinner, we treat every guest like family. Come taste the difference that <strong>shudh shakahari</strong> cooking makes.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat-card">
+          <div class="stat-value">100%</div>
+          <div class="stat-label">Pure Veg Since Day One — No Eggs, No Meat, Never</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">7 Days</div>
+          <div class="stat-label">Open Every Day — 10:30 AM to 10:30 PM</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">₹200</div>
+          <div class="stat-label">Alankar Special Thali — Full Meal, Unbeatable Value</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY ALANKAR -->
+<section id="why">
+  <div class="container">
+    <div class="why-header reveal">
+      <div class="green-badge" style="margin-bottom:16px;background:rgba(27,94,32,0.2);border-color:var(--green);color:#4CAF50">Why Choose Us</div>
+      <h2 class="section-title" style="color:var(--cream)">Why <span>Alankar?</span></h2>
+      <p class="section-sub">Pure food, pure intentions — the Alankar promise</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <span class="why-icon">🟢</span>
+        <div class="why-title">100% Pure Veg</div>
+        <p class="why-desc">Certified pure vegetarian kitchen. No cross-contamination, no exceptions. Your food is our sacred responsibility.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🍽️</span>
+        <div class="why-title">Fresh Daily Cooking</div>
+        <p class="why-desc">Every dal, every sabzi, every naan is freshly prepared. We cook from scratch, every single day.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">❄️</span>
+        <div class="why-title">AC Dining Available</div>
+        <p class="why-desc">Comfortable air-conditioned seating for an enjoyable dining experience, whatever the season.</p>
+      </div>
+      <div class="why-card reveal">
+        <span class="why-icon">🚗</span>
+        <div class="why-title">Easy to Reach</div>
+        <p class="why-desc">Conveniently located on Tuesday Market Road, Manas Kunj — close to Uttam Nagar metro and main roads.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <div class="green-badge" style="margin-bottom:16px">Google Reviews</div>
+      <h2 class="section-title">What Our <span>Guests Say</span></h2>
+      <p class="section-sub">Real experiences from real families who've dined with us</p>
+    </div>
+    <div class="testimonials-slider reveal">
+      <div class="testimonials-track" id="sliderTrack">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Dal Makhni is absolutely outstanding here — rich, creamy, and authentically prepared. The Butter Naan is the softest I've had in Uttam Nagar. Perfect for a family dinner!"</p>
+          <div class="review-author">
+            <div class="review-avatar">R</div>
+            <div>
+              <div class="review-name">Rajesh Verma</div>
+              <div class="review-date">Local Guide · 2 weeks ago</div>
+            </div>
+            <div class="review-google">⭐ Google</div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"The Alankar Special Thali at ₹200 is an unbelievable deal. So many dishes, so much taste! My whole family comes here every weekend. Truly the best pure veg food in the area."</p>
+          <div class="review-author">
+            <div class="review-avatar">P</div>
+            <div>
+              <div class="review-name">Priya Sharma</div>
+              <div class="review-date">4 reviews · 1 month ago</div>
+            </div>
+            <div class="review-google">⭐ Google</div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★☆</div>
+          <p class="review-text">"Kadhai Paneer and Garlic Naan combo here is something else! Authentic flavours, clean vegetarian kitchen, and very warm service. The veg biryani also has great taste as people say."</p>
+          <div class="review-author">
+            <div class="review-avatar">A</div>
+            <div>
+              <div class="review-name">Amit Gupta</div>
+              <div class="review-date">12 reviews · 3 months ago</div>
+            </div>
+            <div class="review-google">⭐ Google</div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Brought my parents here for anniversary dinner. The staff was so accommodating and the food was divine. Paneer Butter Masala and Laccha Paratha — absolutely mouthwatering. Will definitely return!"</p>
+          <div class="review-author">
+            <div class="review-avatar">S</div>
+            <div>
+              <div class="review-name">Sunita Mehta</div>
+              <div class="review-date">7 reviews · 6 weeks ago</div>
+            </div>
+            <div class="review-google">⭐ Google</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-dots" id="sliderDots"></div>
+  </div>
+</section>
+
+<!-- LOCATION & HOURS -->
+<section id="location">
+  <div class="container">
+    <div class="location-grid">
+      <div class="map-wrap reveal">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.5!2d77.0588!3d28.6219!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d05c78c8e3c71%3A0x1!2sRz-5%2C+Tuesday+Market+Rd%2C+Manas+Kunj%2C+Uttam+Nagar%2C+New+Delhi%2C+Delhi+110059!5e0!3m2!1sen!2sin!4v1"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Alankar Restaurant Location">
+        </iframe>
+      </div>
+      <div class="reveal">
+        <h2 class="section-title" style="color:var(--cream);margin-bottom:28px">Find <span>Us Here</span></h2>
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-label">Address</div>
+            <div class="info-val">Rz-5, Tuesday Market Road,<br>Manas Kunj, Uttam Nagar,<br>New Delhi, Delhi 110059</div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-val"><a href="tel:07011552924">07011552924</a></div>
+          </div>
+        </div>
+        <div class="info-card">
+          <div class="info-icon">🕐</div>
+          <div>
+            <div class="info-label">Opening Hours</div>
+            <table class="hours-table">
+              <tr>
+                <td>Open Daily</td>
+                <td class="hours-open">10:30 AM – 10:30 PM</td>
+              </tr>
+              <tr>
+                <td>Lunch Service</td>
+                <td>12:00 PM – 4:30 PM</td>
+              </tr>
+              <tr>
+                <td>Dinner Service</td>
+                <td>6:00 PM – 10:30 PM</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <a href="https://zoma.to" target="_blank" rel="noopener" class="zomato-btn">
+          <div class="zomato-logo">Z</div>
+          Order on Zomato
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="nav-logo">
+          <div class="nav-logo-dot" style="background:white;animation:none"></div>
+          <div>
+            <div class="nav-logo-text">ALANKAR</div>
+            <span class="nav-logo-sub">Pure Veg Restaurant</span>
+          </div>
+        </div>
+        <p class="footer-tagline">"Shudh Shakahari, Asli Swad" — Serving authentic North Indian vegetarian cuisine with love since day one.</p>
+      </div>
+      <div>
+        <div class="footer-col-title">Quick Links</div>
+        <ul class="footer-links">
+          <li><a href="#menu">Our Menu</a></li>
+          <li><a href="#thali-section">Special Thali</a></li>
+          <li><a href="#booking">Book a Table</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#location">Location</a></li>
+        </ul>
+      </div>
+      <div class="footer-contact">
+        <div class="footer-col-title">Contact Us</div>
+        <p>
+          📍 Rz-5, Tuesday Market Road,<br>Manas Kunj, Uttam Nagar,<br>New Delhi 110059<br><br>
+          📞 <a href="tel:07011552924">07011552924</a><br><br>
+          🕐 Daily 10:30 AM – 10:30 PM
+        </p>
+        <a href="https://zoma.to" target="_blank" rel="noopener" class="zomato-btn" style="margin-top:16px;font-size:0.82rem;padding:10px 20px">
+          <div class="zomato-logo" style="width:16px;height:16px;font-size:0.6rem">Z</div>
+          Order on Zomato
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2026 <strong>Alankar Restaurant</strong>. All rights reserved. Made with ❤️ in New Delhi.</p>
+      <div class="footer-badges">
+        <span class="footer-badge">🟢 Pure Veg</span>
+        <span class="footer-badge">FSSAI Certified</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ════════════════════════════════════════
+// CURSOR
+// ════════════════════════════════════════
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cursor.style.left=mx+'px';cursor.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*0.12;ry+=(my-ry)*0.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+document.querySelectorAll('a,button,.tab-btn,.dish-card').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cursor.style.width='18px';cursor.style.height='18px';ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='var(--gold)'});
+  el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='var(--saffron)'});
+});
+
+// ════════════════════════════════════════
+// LOADER
+// ════════════════════════════════════════
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hidden');
+    animateHeroWords();
+  },1400);
+});
+
+// ════════════════════════════════════════
+// HERO WORD ANIMATION
+// ════════════════════════════════════════
+function animateHeroWords(){
+  const words = ['w1','w2','w3','w4'];
+  const delays = [1600,2000,2400,2700];
+  words.forEach((id,i)=>{
+    setTimeout(()=>{document.getElementById(id).classList.add('show')},delays[i]);
+  });
+}
+
+// ════════════════════════════════════════
+// NAVBAR SCROLL
+// ════════════════════════════════════════
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll',()=>{
+  navbar.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// ════════════════════════════════════════
+// SCROLL REVEAL
+// ════════════════════════════════════════
+const revealObserver = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      revealObserver.unobserve(e.target);
+    }
+  });
+},{threshold:0.12,rootMargin:'0px 0px -40px 0px'});
+function initReveal(){document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));}
+
+// ════════════════════════════════════════
+// MENU DATA & TABS
+// ════════════════════════════════════════
+const menuData = {
+  "Main Course":[
+    {name:"Dal Makhni",price:"₹200"},{name:"Kadhai Paneer",price:"₹200"},
+    {name:"Shai Paneer",price:"₹200"},{name:"Paneer Do Pyaza",price:"₹200"},
+    {name:"Paneer Labbdar",price:"₹200"},{name:"Paneer Butter Masala",price:"₹200"},
+    {name:"Tawa Masala Chaap",price:"₹180"},{name:"Kadhai Chaap",price:"₹200"},
+    {name:"Mix Veg",price:"₹150"},{name:"Yellow Dal Tadka",price:"₹150"},
+    {name:"Mutter Paneer",price:"₹200"},{name:"Chole",price:"₹150"},
+    {name:"Jeera Aloo",price:"₹150"},{name:"Chana Masala",price:"₹170"},
+    {name:"Aloo Gobhi",price:"₹160"},{name:"Masala Gobhi",price:"₹180"}
+  ],
+  "Tandoor Se":[
+    {name:"Tandoori Roti",price:"₹12"},{name:"Butter Roti",price:"₹15"},
+    {name:"Missi Roti",price:"₹30"},{name:"Onion Missi Roti",price:"₹40"},
+    {name:"Plain Naan",price:"₹30"},{name:"Butter Naan",price:"₹40"},
+    {name:"Paneer Naan",price:"₹60"},{name:"Garlic Naan",price:"₹50"},
+    {name:"Aloo Naan",price:"₹40"},{name:"Onion Naan",price:"₹40"},
+    {name:"Stuff Naan",price:"₹50"},{name:"Gobhi Naan",price:"₹40"},
+    {name:"Laccha Parantha",price:"₹30"},{name:"Paneer Parantha",price:"₹50"},
+    {name:"Onion Parantha",price:"₹44"},{name:"Stuff Parantha",price:"₹45"},
+    {name:"Aloo Parantha",price:"₹30"},{name:"Spl. Brijwasi Mirchi Parantha",price:"₹40"}
+  ],
+  "Rice & Biryani":[
+    {name:"Plain Rice",price:"₹90"},{name:"Jeera Rice",price:"₹100"},
+    {name:"Peas Pulao",price:"₹120"},{name:"Veg Pulao",price:"₹130"},
+    {name:"Veg Biryani",price:"₹160"}
+  ],
+  "Raita / Papad / Lassi":[
+    {name:"Mix Raita",price:"₹80"},{name:"Boondi Raita",price:"₹70"},
+    {name:"Pineapple Raita",price:"₹80"},{name:"Plain Papad",price:"₹10"},
+    {name:"Fried Papad",price:"₹15"},{name:"Masala Papad",price:"₹20"},
+    {name:"Sweet Lassi",price:"₹50"},{name:"Masala Lassi",price:"₹40"},
+    {name:"Mineral Water",price:"MRP"},{name:"Cold Drink",price:"MRP"},
+    {name:"Hot Coffee",price:"₹40"},{name:"Cold Coffee",price:"₹80"}
+  ],
+  "Soups":[
+    {name:"Tomato Soup",price:"₹60"},{name:"Hot & Sour Soup",price:"₹80"},
+    {name:"Manchow Soup",price:"₹80"},{name:"Sweet Corn Soup",price:"₹60"}
+  ],
+  "Thali":[
+    {name:"Alankar Special Thali",price:"₹200",special:true,desc:"2 Butter Naan · 2 Laccha Paratha · Dal Makhni · Kadhai Paneer · Mix Veg · Raita · Rice · Papad · 1 Sweet"}
+  ]
+};
+
+function buildMenu(){
+  const tabsWrap = document.getElementById('tabsWrap');
+  const tabContent = document.getElementById('tabContent');
+  const keys = Object.keys(menuData);
+  keys.forEach((tab,i)=>{
+    // Tab button
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn'+(i===0?' active':'');
+    btn.textContent = tab;
+    btn.dataset.tab = tab;
+    btn.addEventListener('click',()=>switchTab(tab));
+    tabsWrap.appendChild(btn);
+    // Tab panel
+    const panel = document.createElement('div');
+    panel.className = 'tab-panel'+(i===0?' active':'');
+    panel.id = 'panel-'+tab.replace(/\s+/g,'-');
+    const grid = document.createElement('div');
+    grid.className = 'menu-grid';
+    menuData[tab].forEach(dish=>{
+      if(dish.special){
+        const card = document.createElement('div');
+        card.className = 'thali-card';
+        card.innerHTML = `<div class="thali-badge">⭐ Special</div><div class="thali-name">${dish.name}</div><div class="thali-desc">${dish.desc}</div><div class="thali-price">${dish.price}</div>`;
+        grid.appendChild(card);
+      } else {
+        const card = document.createElement('div');
+        card.className = 'dish-card';
+        card.innerHTML = `<span class="dish-name">${dish.name}</span><span class="dish-price">${dish.price}</span>`;
+        grid.appendChild(card);
+      }
+    });
+    panel.appendChild(grid);
+    tabContent.appendChild(panel);
+  });
+}
+
+function switchTab(tab){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>{
+    p.classList.toggle('active',p.id==='panel-'+tab.replace(/\s+/g,'-'));
+  });
+}
+
+// ════════════════════════════════════════
+// MARQUEE
+// ════════════════════════════════════════
+function buildTicker(){
+  const items = [
+    'Dal Makhni ₹200','Kadhai Paneer ₹200','Butter Naan ₹40',
+    'Alankar Special Thali ₹200','Veg Biryani ₹160','Paneer Butter Masala ₹200',
+    'Garlic Naan ₹50','Yellow Dal Tadka ₹150','Sweet Lassi ₹50',
+    'Paneer Naan ₹60','Tawa Masala Chaap ₹180','Cold Coffee ₹80'
+  ];
+  const ticker = document.getElementById('ticker');
+  const doubled = [...items,...items];
+  doubled.forEach(item=>{
+    const span = document.createElement('span');
+    span.className = 'ticker-item';
+    span.innerHTML = `<span class="ticker-dot"></span>${item}`;
+    ticker.appendChild(span);
+  });
+}
+
+// ════════════════════════════════════════
+// TESTIMONIALS SLIDER
+// ════════════════════════════════════════
+let sliderIdx = 0;
+let sliderAuto;
+function buildSlider(){
+  const track = document.getElementById('sliderTrack');
+  const dots = document.getElementById('sliderDots');
+  const cards = track.querySelectorAll('.review-card');
+  cards.forEach((_,i)=>{
+    const dot = document.createElement('button');
+    dot.className = 'slider-dot'+(i===0?' active':'');
+    dot.addEventListener('click',()=>goToSlide(i));
+    dots.appendChild(dot);
+  });
+  startAutoSlide();
+}
+
+function goToSlide(i){
+  const cards = document.querySelectorAll('.review-card');
+  sliderIdx = (i+cards.length)%cards.length;
+  const cardW = cards[0].offsetWidth + 28;
+  document.getElementById('sliderTrack').style.transform = `translateX(-${sliderIdx*cardW}px)`;
+  document.querySelectorAll('.slider-dot').forEach((d,j)=>d.classList.toggle('active',j===sliderIdx));
+}
+function startAutoSlide(){
+  sliderAuto = setInterval(()=>goToSlide(sliderIdx+1),4500);
+}
+function stopAutoSlide(){clearInterval(sliderAuto)}
+
+// ════════════════════════════════════════
+// DATE MIN
+// ════════════════════════════════════════
+function setMinDate(){
+  const dateInput = document.getElementById('bDate');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+}
+
+// ════════════════════════════════════════
+// BOOKING FORM
+// ════════════════════════════════════════
+document.getElementById('bookingForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  const date = document.getElementById('bDate').value;
+  const time = document.getElementById('bTime').value;
+  const guests = document.getElementById('bGuests').value;
+  const name = document.getElementById('bName').value.trim();
+  const phone = document.getElementById('bPhone').value.trim();
+  const errEl = document.getElementById('formError');
+  if(!date||!time||!guests||!name||!phone){
+    errEl.textContent='Please fill all required fields (*)';
+    errEl.style.display='block';return;
+  }
+  if(!/^\d{10}$/.test(phone.replace(/\s/g,''))){
+    errEl.textContent='Please enter a valid 10-digit phone number';
+    errEl.style.display='block';return;
+  }
+  errEl.style.display='none';
+  document.getElementById('bookingFormContent').style.display='none';
+  document.getElementById('booking-success').classList.add('show');
+});
+
+function resetForm(){
+  document.getElementById('bookingForm').reset();
+  document.getElementById('bookingFormContent').style.display='block';
+  document.getElementById('booking-success').classList.remove('show');
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+document.addEventListener('DOMContentLoaded',()=>{
+  buildMenu();
+  buildTicker();
+  buildSlider();
+  setMinDate();
+  initReveal();
+});
+
+// Pause ticker on hover
+const tickerWrap = document.querySelector('.ticker-wrap');
+if(tickerWrap){
+  tickerWrap.addEventListener('mouseenter',()=>document.getElementById('ticker').style.animationPlayState='paused');
+  tickerWrap.addEventListener('mouseleave',()=>document.getElementById('ticker').style.animationPlayState='running');
+}
+
+// Pause slider on hover
+const sliderEl = document.querySelector('.testimonials-slider');
+if(sliderEl){
+  sliderEl.addEventListener('mouseenter',stopAutoSlide);
+  sliderEl.addEventListener('mouseleave',startAutoSlide);
+}
+</script>
+</body>
+</html>
